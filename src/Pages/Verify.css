@@ -1,0 +1,11 @@
+.verify-bg{
+    background-image: url(../Images/hands.jpg);
+    width: 99vw; 
+    height: 50vw;
+    left:0;
+    position: absolute;
+    object-fit: contain;
+    /* background-repeat: repeat; */
+    background-size: cover;
+
+}
