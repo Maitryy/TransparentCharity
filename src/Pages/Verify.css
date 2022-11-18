@@ -9,3 +9,8 @@
     background-size: cover;
 
 }
+
+.card-bg{
+    background-color: rgb(66, 63, 63) !important;
+  opacity: 0.8;
+}

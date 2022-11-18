@@ -1,0 +1,48 @@
+.modal-content {
+  background-color: rgb(66, 63, 63) !important;
+  opacity: 0.8;
+}
+
+.modal-backdrop.show {
+  background-image: url(../Images/hands.jpg);
+  opacity: 1 !important;
+  width: 100vw;
+  height: 100vh;
+  left: 0;
+  position: absolute;
+  object-fit: contain;
+  background-repeat: no-repeat;
+  background-size: cover;
+  z-index: -1;
+  /* -webkit-filter: blur(16px);
+    filter: blur(16px); */
+}
+
+.modal-backdrop {
+  --bs-backdrop-zindex: 1050;
+  --bs-backdrop-bg: #000;
+}
+
+.btn-grad {
+  color: black;
+  margin: 10px;
+  padding: 15px 45px;
+  background-image: linear-gradient(to right, #eacda3 0%, #d6ae7b  51%, #eacda3  100%);
+  text-align: center;
+  text-transform: uppercase;
+  transition: 0.5s;
+  background-size: 200% auto;
+  box-shadow: 0 0 10px #00000;
+  border-radius: 10px;
+  display: block;
+  border: 0 !important;
+}
+
+.btn-grad:hover {
+  background-position: right center; /* change the direction of the change here */
+  color: black;
+  text-decoration: none;
+}
+
+
+         

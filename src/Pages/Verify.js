@@ -8,18 +8,28 @@ import charity from "../Images/charity.jpg";
 import { Container } from "react-bootstrap";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import { Link, NavLink } from "react-router-dom";
+import { useState, useEffect } from "react";
 
-export default function Verify() {
+var contract = {};
+
+export default function Verify(props) {
+  contract = props.contract;
+  const [veriReq, setVeriReq] = useState([]);
+  useEffect(() => {
+    console.log(contract);
+  }, [contract]);
+
   return (
     <div>
       <div className="blur verify-bg"></div>
       <Container>
         <Row xs={1} md={2} lg={3} className="g-4 pt-5">
-          {Array.from({ length: 24 }).map((_, idx) => (
+          {Array.from({ length: 5 }).map((_, idx) => (
             <Col>
-              <Card className="m-2">
+              <Card className="m-2 card-bg " style={{ borderRadius: "16px" }}>
                 <Card.Img variant="top" src={charity} />
-                <Card.Body>
+                <Card.Body className="text-light">
                   {/* <Stack
                     direction="horizontal"
                     className="justify-content-between mb-3"
@@ -34,7 +44,21 @@ export default function Verify() {
                     Some quick example text to build on the card title and make
                     up the bulk of the card's content.
                   </Card.Text>
-                  <Button variant="primary">Verify Request</Button>
+                  <div style={{ marginLeft: "5vw" }}>
+                    <button
+                      variant="primary"
+                      className="btn-grad"
+                      style={{ margin: "5px", padding: "5px 30px" }}
+                    >
+                      {" "}
+                      <NavLink
+                        to="/details"
+                        style={{ textDecoration: "none", color: "black" }}
+                      >
+                        Verify Request
+                      </NavLink>{" "}
+                    </button>
+                  </div>
                 </Card.Body>
               </Card>
             </Col>

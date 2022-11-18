@@ -1,13 +1,23 @@
 import React from "react";
+import { useState } from "react";
 import "./Home.css";
 import bg1 from "../Images/bg1.jpg";
 import earth from "../Images/Earth.jpg";
-import { Container } from "react-bootstrap";
+import { Container, Form } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
+import { NavLink } from "react-router-dom";
+import FormModal from "../Components/FormModal";
 
-export default function Home() {
+export default function Home(props) {
+  const [showModal, setShowModal] = useState(false);
   return (
     <div>
+      <FormModal
+        show={showModal}
+        onHide={() => setShowModal(false)}
+        client={props.client}
+        contract = {props.contract}
+      />{" "}
       <div className="text-light mt-5 mx-5">
         <div className="earth">
           <div
@@ -43,17 +53,19 @@ export default function Home() {
               </div>
 
               <div className="col-3">
-                <Button variant="warning" href="/request">Create Request</Button>{" "}
+                <Button
+                  variant="warning"
+                  onClick={() => {
+                    setShowModal(!showModal);
+                  }}
+                >
+                  Create Request
+                </Button>{" "}
               </div>
               <div className="col-3"></div>
             </div>
           </Container>
         </div>
-      </div>
-      <div>
-        {/* <Container className="options pt-3 pb-3">
-          <p>hey there</p>
-        </Container> */}
       </div>
     </div>
   );
