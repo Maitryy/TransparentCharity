@@ -17,7 +17,6 @@ export default function Verify(props) {
   contract = props.contract;
   const [veriReq, setVeriReq] = useState([]);
   useEffect(() => {
-    console.log(contract);
   }, [contract]);
 
   return (

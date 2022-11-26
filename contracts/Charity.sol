@@ -20,6 +20,7 @@ contract Charity {
         string descriptionHash;
         string docHash;
         uint256 amountRaised;
+        uint256 status;
     }
     address admin;
     address payable[] public verifiers;
@@ -153,7 +154,8 @@ contract Charity {
                 descriptionHash: unverifiedRequests[ind].descriptionHash,
                 docHash: unverifiedRequests[ind].docHash,
                 owner: payable(unverifiedRequests[ind].owner),
-                amountRaised: 0
+                amountRaised: 0,
+                status: 0
             })
         );
         verifiedRequestsLength+=1;
@@ -205,8 +207,10 @@ contract Charity {
             require(sent2, "Failed to send Ether to verifier");
         }
         verifiedRequests[ind].amountRaised += msg.value;
-        if (verifiedRequests[ind].amountRaised >= verifiedRequests[ind].amount)
-            deleteRequest(ind);
+        if (verifiedRequests[ind].amountRaised >= verifiedRequests[ind].amount) {
+            verifiedRequests[ind].status = 1;
+            // deleteRequest(ind);
+        }
         return true;
     }
 

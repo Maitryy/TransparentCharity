@@ -7,16 +7,37 @@ import { Container, Form } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import { NavLink } from "react-router-dom";
 import FormModal from "../Components/FormModal";
+import { useEffect } from "react";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Card from "react-bootstrap/Card";
+import charity from "../Images/charity.jpg";
 
 export default function Home(props) {
   const [showModal, setShowModal] = useState(false);
+  const [completedReq, setCompletedReq] = useState([]);
+  const [verifiedRequests, setVerifiedRequests] = useState([]);
+  const [verifiedRequestLength, setVerifiedRequestLength] = useState(0);
+  const [someVar, setsomevar] = useState(0);
+
+  // useEffect(() => {
+  // }, [props.fetchData]);
+
+  useEffect(() => {
+    setVerifiedRequests(props.verifiedRequests);
+    // alert("AAAAAAAAAAAAAAAAAAAAAAAAAAAAA!!!!!!!!!!");
+  }, [props]);
+
+  console.log(props);
+
   return (
     <div>
       <FormModal
         show={showModal}
         onHide={() => setShowModal(false)}
         client={props.client}
-        contract = {props.contract}
+        contract={props.contract}
+        account={props.account}
       />{" "}
       <div className="text-light mt-5 mx-5">
         <div className="earth">
@@ -64,6 +85,48 @@ export default function Home(props) {
               </div>
               <div className="col-3"></div>
             </div>
+            <div
+              style={{
+                fontFamily: "Orbitron",
+                fontWeight: "900",
+                fontSize: "50px",
+                marginTop: "5vh",
+              }}
+            >
+              Featured Requests
+            </div>
+            <Row xs={1} md={2} lg={3} className="g-4 pt-5">
+              {verifiedRequests.map((_, idx) => (
+                <Col key={idx}>
+                  <Card
+                    className="m-2 card-bg "
+                    style={{ borderRadius: "16px" }}
+                  >
+                    <Card.Img variant="top" src={charity} />
+                    <Card.Body className="text-light">
+                      <Card.Title>{_.title}</Card.Title>
+                      <Card.Text>{_.descriptionHash}</Card.Text>
+                      <div style={{ marginLeft: "5vw" }}>
+                        <button
+                          variant="primary"
+                          className="btn-grad"
+                          style={{ margin: "5px", padding: "5px 30px" }}
+                        >
+                          {" "}
+                          <a
+                            target="_blank"
+                            href={_.docHash}
+                            style={{ textDecoration: "none", color: "black" }}
+                          >
+                            View Documents
+                          </a>{" "}
+                        </button>
+                      </div>
+                    </Card.Body>
+                  </Card>
+                </Col>
+              ))}
+            </Row>
           </Container>
         </div>
       </div>

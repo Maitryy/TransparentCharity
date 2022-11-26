@@ -9,7 +9,13 @@ import { Link, NavLink } from "react-router-dom";
 
 function Navigation(props) {
   const [walletAdd, setWalletAdd] = useState("");
-
+  var check = false;
+  for (let i = 0; i < props.verifiers.length; ++i) {
+    // console.log(walletAdd, props.verifiers[i], "ok: ", walletAdd.localeCompare(props.verifiers[i]));
+    if (walletAdd.localeCompare(props.verifiers[i]) === 0) {
+      check = true;
+    }
+  }
   return (
     <Navbar
       collapseOnSelect
@@ -38,20 +44,22 @@ function Navigation(props) {
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto"></Nav>
           <Nav>
-            <NavLink
-              to="/verify"
-              variant="dark"
-              style={{
-                color: "lightblue",
-                fontFamily: "Quantico",
-                marginRight: "20px",
-                textDecoration: "none",
-                paddingTop: "8px",
-              }}
-            >
-              {" "}
-              Verify Requests
-            </NavLink>
+            {check && (
+              <NavLink
+                to="/verify"
+                variant="dark"
+                style={{
+                  color: "lightblue",
+                  fontFamily: "Quantico",
+                  marginRight: "20px",
+                  textDecoration: "none",
+                  paddingTop: "8px",
+                }}
+              >
+                {" "}
+                Verify Requests
+              </NavLink>
+            )}
             <NavLink
               to="/myrequest"
               variant="dark"
@@ -76,7 +84,7 @@ function Navigation(props) {
               }}
               // disabled={props.wallet !== ""}
               onClick={() => {
-                props.connectWallet().then(add => setWalletAdd(add));
+                props.connectWallet().then((add) => setWalletAdd(add));
               }}
             >
               {walletAdd !== ""

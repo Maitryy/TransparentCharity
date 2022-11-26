@@ -8,22 +8,46 @@ import Row from "react-bootstrap/Row";
 import InputGroup from "react-bootstrap/InputGroup";
 import CloseButton from "react-bootstrap/CloseButton";
 import { NFTStorage, File } from "nft.storage";
+import { Web3Storage } from "web3.storage";
 
 const NFT_STORAGE_KEY =
-  "REPLAeyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweERCMTI3NzY0NjIwNjUyNjhDOTI2RjhiYjJENTNhQ0Y4Yzk3RjA4NDYiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY2ODY4NjE5OTE3NCwibmFtZSI6IkNoYXJpdHkifQ.mkmi8ttdSecqBsk6lUG6XXpDiYoOQyDq1GEhAHvghIgCE_ME_WITH_YOUR_KEY";
-
-const uploadReq = async (contract, postTitle, postDesc, docHash, amt) => {
-  console.log(postTitle, postDesc);
-  console.log(await contract.methods.addRequest(0, "t", 10, "t", "t").call());
-};
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDgxZkE0QTU0OGY3MTJhOUNhYmZiQ2NhQWQ0YjVCNTA4ZjNjNzcxNzYiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2Njg5NTAwMzU5NjksIm5hbWUiOiJjaGFyaXR5In0.l_yDJjEAp7FtM1DptkKmYFMdJchmzJQhiV7J5RJNZ90";
 
 export default function FormModal(props) {
-  console.log(props.contract.methods);
   const [postTitle, setPostTitle] = useState("");
   const [postDesc, setPostDesc] = useState("");
+  const [docFile, setDocFile] = useState({});
   const [docHash, setDocHash] = useState("");
   const [documents, setDocuments] = useState(null);
   const [amt, setAmt] = useState("");
+  const [images, setImages] = useState([]);
+
+  const onSubmitHandler = async (event) => {
+    const form = event.target;
+    event.preventDefault();
+    const file = documents[0];
+    if (!file || file.length === 0) {
+      return alert("No files selected");
+    }
+    const nfiles = [new File([file], "test.pdf")];
+    const client = new Web3Storage({ token: NFT_STORAGE_KEY });
+    const cid = await client.put(nfiles);
+    setDocHash(cid);
+    // console.log("stored files with cid:", cid);
+    // console.log("https://ipfs.io/ipfs/" + cid + "/test.pdf");
+    addRequest(postTitle, postDesc, docHash, amt);
+    form.reset();
+  };
+
+  function addRequest(postTitle, postDesc, docHash, amt) {
+    var postID = new Date().valueOf();
+    props.contract.methods
+      .addRequest(postID, postTitle, amt, postDesc, docHash)
+      .send({ from: props.account, gas: "1000000" })
+      .once("receipt", (receipt) => {
+        console.log(receipt);
+      });
+  }
 
   return (
     <Modal
@@ -49,7 +73,7 @@ export default function FormModal(props) {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form className="text-light pt-2">
+        <Form className="text-light pt-2" onSubmit={onSubmitHandler}>
           <Form.Group className="my-3 mx-4" controlId="formHorizontalEmail">
             <Form.Label className="text-light">Enter Title</Form.Label>
             <Form.Control
@@ -83,7 +107,7 @@ export default function FormModal(props) {
             </Form.Label>
             <Form.Control
               type="file"
-              accept="image/*"
+              accept="application/pdf"
               onChange={(event) => {
                 setDocuments(event.target.files);
               }}
@@ -124,10 +148,6 @@ export default function FormModal(props) {
               fontWeight: "700",
             }}
             className="btn-grad btn-sm"
-            onClick={async (event) => {
-              event.preventDefault();
-              uploadReq(props.contract, postTitle, postDesc, docHash, amt);
-            }}
           >
             Submit
           </button>

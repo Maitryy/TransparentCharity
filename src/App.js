@@ -1,22 +1,14 @@
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Web3 from "web3";
+import { Component } from "react";
 import Home from "./Pages/Home";
 import Navigation from "./Components/Navbar";
-import Footer from "./Components/Footer";
-import { Component } from "react";
 import Verify from "./Pages/Verify";
 import Request from "./Pages/Request";
 import Detail from "./Pages/Detail";
 import MyRequest from "./Pages/MyRequest";
 import { CHARITY_ADDRESS, CHARITY_ABI } from "./config";
-import { create } from "ipfs-http-client";
-import { Buffer } from "buffer";
-
-const API_SECRET_KEY = "6408ca161aecf29fcd774d0e7c41a2b8";
-const PROJECT_ID = "2HXOnQR7DDPNcC94ilkSvKrEhhk";
-const AUTH =
-  "Basic " + Buffer.from(PROJECT_ID + ":" + API_SECRET_KEY).toString("base64");
 
 class App extends Component {
   componentDidMount() {
@@ -48,13 +40,60 @@ class App extends Component {
   }
 
   async loadBlockchainData() {
-    // console.log(Web3.givenProvider)
     const web3 = new Web3("http://localhost:7545");
     const accounts = await web3.eth.getAccounts();
     this.setState({ account: accounts[0] });
     this.state.contract = new web3.eth.Contract(CHARITY_ABI, CHARITY_ADDRESS);
-  }
 
+    await this.state.contract.methods
+      .unverifiedRequestsLength()
+      .call()
+      .then((val) => {
+        this.state.unverifiedReqLength = parseInt(val);
+      });
+    await this.state.contract.methods
+      .verifiedRequestsLength()
+      .call()
+      .then((val) => {
+        this.state.verifiedReqLength = parseInt(val);
+      });
+    await this.state.contract.methods
+      .verifierLength()
+      .call()
+      .then((val) => {
+        this.state.verifierLength = parseInt(val);
+      });
+    if (this.state.verifierLength !== 0) {
+      for (let i = 0; i < this.state.verifierLength; ++i) {
+        // let tmp = await this.state.contract.methods.verifiers(i).call();
+        // console.log("tmp:", tmp);
+        // this.state.verifiers.push(tmp);
+        this.state.contract.methods
+          .verifiers(i)
+          .call()
+          .then((val) => {
+            this.state.verifiers.push(val);
+          });
+        console.log("APP:", this.state);
+      }
+    }
+    /*
+    if (this.state.verifiedReqLength !== 0) {
+      for (let i = 0; i < this.state.verifiedReqLength; ++i) {
+        let tmp = await this.state.contract.methods.verifiedRequests(i).call();
+        this.state.verifiedRequests.push(tmp);
+      }
+    }
+    if (this.state.unverifiedReqLength !== 0) {
+      for (let i = 0; i < this.state.unverifiedReqLength; ++i) {
+        let tmp = await this.state.contract.methods
+          .unverifiedRequests(i)
+          .call();
+        this.state.unverifiedRequests.push(tmp);
+      }
+    }
+    */
+  }
 
   constructor(props) {
     super(props);
@@ -64,33 +103,35 @@ class App extends Component {
       account: "",
       wallet: "",
       contract: {},
-      client: create({
-        host: "ipfs.infura.io",
-        // host: "infura-ipfs.io",
-        port: 5001,
-        protocol: "https",
-        headers: {
-          authorization: AUTH,
-        },
-      }),
+      verifiedReqLength: 0,
+      unverifiedReqLength: 0,
+      verifierLength: 0,
+      verifiedRequests: [],
+      unverifiedRequests: [],
+      verifiers: [],
+      fetchData: false,
     };
   }
 
   render() {
+    
     return (
       <div className="App">
         <BrowserRouter>
           <Navigation
             connectWallet={this.connectWallet}
             getWalletAdd={this.getWalletAdd}
+            verifiers={this.state.verifiers}
           />
           <Routes>
             <Route
               path="/"
               element={
                 <Home
-                  client={this.state.client}
                   contract={this.state.contract}
+                  verifiedRequests={this.state.unverifiedRequests}
+                  account={this.state.account}
+                  fetchData={this.state.fetchData}
                 />
               }
             />
@@ -106,8 +147,7 @@ class App extends Component {
               path="/details"
               element={<Detail contract={this.state.contract} />}
             />
-            <Route path="/myrequest" element={<MyRequest/>} />
-
+            <Route path="/myrequest" element={<MyRequest />} />
             
           </Routes>
           {/* <Footer /> */}

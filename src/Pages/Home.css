@@ -11,6 +11,7 @@ body {
     background-image: url(../Images/Earth.jpg);
     width: 99vw; 
     height: 50vw;
+    background-position-y: -100px;
     left:0;
     position: absolute;
     object-fit: contain;
