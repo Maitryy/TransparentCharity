@@ -16,26 +16,32 @@ import charity from "../Images/charity.jpg";
 export default function Home(props) {
   const [showModal, setShowModal] = useState(false);
   const [completedReq, setCompletedReq] = useState([]);
-  const [verifiedRequests, setVerifiedRequests] = useState([]);
+  const [verifiedRequests, setVerifiedRequests] = useState([
+    {
+      title: "Test Post I",
+      docHash:
+        "https://ipfs.io/ipfs/bafybeidfxduc6ojbcwos23pkodpjvx2u2snvzv4msuynpeuh7jl4w4fg5y/test.pdf",
+      descriptionHash:
+        "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tempore dignissimos error temporibus cum ipsam aperiam incidunt eveniet hic nemo dolores voluptas ea nobis quam provident fugit iure, modi vitae ratione",
+      amt: 21,
+    },
+    {
+      title: "Test Post II",
+      docHash:
+        "https://ipfs.io/ipfs/bafybeidfxduc6ojbcwos23pkodpjvx2u2snvzv4msuynpeuh7jl4w4fg5y/test.pdf",
+      descriptionHash:
+        "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tempore dignissimos error temporibus cum ipsam aperiam incidunt eveniet hic nemo dolores voluptas ea nobis quam provident fugit iure, modi vitae ratione",
+      amt: 21,
+    },
+  ]);
+
   const [verifiedRequestLength, setVerifiedRequestLength] = useState(0);
-  const [someVar, setsomevar] = useState(0);
-
-  // useEffect(() => {
-  // }, [props.fetchData]);
-
-  useEffect(() => {
-    setVerifiedRequests(props.verifiedRequests);
-    // alert("AAAAAAAAAAAAAAAAAAAAAAAAAAAAA!!!!!!!!!!");
-  }, [props]);
-
-  console.log(props);
 
   return (
     <div>
       <FormModal
         show={showModal}
         onHide={() => setShowModal(false)}
-        client={props.client}
         contract={props.contract}
         account={props.account}
       />{" "}
@@ -93,7 +99,7 @@ export default function Home(props) {
                 marginTop: "5vh",
               }}
             >
-              Featured Requests
+              Completed Requests
             </div>
             <Row xs={1} md={2} lg={3} className="g-4 pt-5">
               {verifiedRequests.map((_, idx) => (
