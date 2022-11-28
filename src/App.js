@@ -21,6 +21,7 @@ class App extends Component {
         window.ethereum
           .request({ method: "eth_requestAccounts" })
           .then((add) => {
+            console.log(add);
             resolve(add[0]);
           })
           .catch((err) => {

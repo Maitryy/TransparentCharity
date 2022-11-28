@@ -112,7 +112,7 @@ export default function Home(props) {
                     <Card.Body className="text-light">
                       <Card.Title>{_.title}</Card.Title>
                       <Card.Text>{_.descriptionHash}</Card.Text>
-                      <div style={{ marginLeft: "5vw" }}>
+                      <div style={{ marginLeft: "4.5vw" }}>
                         <button
                           variant="primary"
                           className="btn-grad"

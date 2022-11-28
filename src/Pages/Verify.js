@@ -6,35 +6,46 @@ import charity from "../Images/charity.jpg";
 import { Container } from "react-bootstrap";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import { NavLink } from "react-router-dom";
+import Button from "react-bootstrap/Button";
+
 import { useState, useEffect } from "react";
 
 export default function Verify(props) {
-  const [isVerifier, setIsVerifier] = useState(0);
+  const [isVerifier, setIsVerifier] = useState(false);
+  const [unverifiedRequests, setUnverifiedRequests] = useState([]);
 
   useEffect(() => {
     async function getVerifiers() {
-      props.contract.methods
-        .verifierLength()
-        .call()
-        .then(async (length) => {
-          for (let i = 0; i < length; ++i) {
-            await props.contract.methods
-              .verifiers(i)
-              .call()
-              .then((address) => {
-                console.log(address);
-                if (props.account.toLowerCase() === address.toLowerCase()) {
-                  setIsVerifier(1);
-                }
-              });
-          }
-        });
+      let verifierLength = await props.contract.methods.verifierLength().call();
+      for (let i = 0; i < verifierLength; ++i) {
+        let verifier = await props.contract.methods.verifiers(i).call();
+        if (verifier.toLowerCase() === props.account.toLowerCase()) {
+          setIsVerifier(true);
+        }
+      }
     }
     if (props.loaded) {
       getVerifiers();
     }
   }, [props.loaded]);
+
+  useEffect(() => {
+    async function getUnverifiedRequests() {
+      if (isVerifier) {
+        let unverifiedRequestsLength = parseInt(
+          await props.contract.methods.unverifiedRequestsLength().call()
+        );
+        let tmp = [];
+        for (let i = 0; i < unverifiedRequestsLength; ++i) {
+          tmp.push(await props.contract.methods.unverifiedRequests(i).call());
+        }
+        setUnverifiedRequests(tmp);
+      }
+    }
+    if (isVerifier) {
+      getUnverifiedRequests();
+    }
+  }, [isVerifier]);
 
   return (
     <div>
@@ -42,7 +53,7 @@ export default function Verify(props) {
       <Container>
         <Row xs={1} md={2} lg={3} className="g-4 pt-5">
           {isVerifier
-            ? Array.from({ length: 5 }).map((_, idx) => (
+            ? unverifiedRequests.map((_, idx) => (
                 <Col key={idx}>
                   <Card
                     className="m-2 card-bg "
@@ -50,25 +61,33 @@ export default function Verify(props) {
                   >
                     <Card.Img variant="top" src={charity} />
                     <Card.Body className="text-light">
-                      <Card.Title>Card Title</Card.Title>
-                      <Card.Text>
-                        Some quick example text to build on the card title and
-                        make up the bulk of the card's content.
-                      </Card.Text>
-                      <div style={{ marginLeft: "5vw" }}>
-                        <button
-                          variant="primary"
-                          className="btn-grad"
-                          style={{ margin: "5px", padding: "5px 30px" }}
-                        >
+                      <Card.Title>{_.title}</Card.Title>
+                      <Card.Text>{_.descriptionHash}</Card.Text>
+                      <div className="row" style={{ marginLeft: "0.2vw" }}>
+                        <div className="col-2 mt-2">
+                          <Button
+                            variant="success"
+                            onClick={() => {
+                              props.contract.methods.upvoteRequest(_.id).call();
+                              console.log(idx);
+                            }}
+                          >
+                            +
+                          </Button>
+                        </div>
+                        <button variant="primary" className="btn-grad col-7">
                           {" "}
-                          <NavLink
-                            to="/details"
+                          <a
+                            target="_blank"
+                            href={_.docHash}
                             style={{ textDecoration: "none", color: "black" }}
                           >
-                            Verify Request
-                          </NavLink>{" "}
+                            View Documents
+                          </a>{" "}
                         </button>
+                        <div className="col-2 mt-2">
+                          <Button variant="danger">-</Button>
+                        </div>
                       </div>
                     </Card.Body>
                   </Card>

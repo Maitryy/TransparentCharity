@@ -45,7 +45,7 @@ export default function FormModal(props) {
     if (!file || file.length === 0) {
       return alert("No files selected");
     }
-    const nfiles = [new File([file], "test.pdf")];
+    const nfiles = [new File([file], "documents.pdf")];
     const client = new Web3Storage({ token: NFT_STORAGE_KEY });
     const cid = await client.put(nfiles);
     let url = "https://ipfs.io/ipfs/" + cid + "/documents.pdf";
