@@ -1,7 +1,6 @@
 import React from "react";
 import { useState } from "react";
 import "./Home.css";
-
 import { Container, Form } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import { NavLink } from "react-router-dom";
@@ -11,13 +10,13 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Card from "react-bootstrap/Card";
 import ProgressBar from "react-bootstrap/ProgressBar";
-import charity from "../Images/charity.jpg";
-
+import getImage from "../Images/getImage";
 
 export default function Home(props) {
   const [showModal, setShowModal] = useState(false);
   const [completedReq, setCompletedReq] = useState([]);
   const [completedReqLength, setCompletedReqLength] = useState(0);
+  console.log(props);
 
   useEffect(() => {
     async function getData() {
@@ -28,7 +27,6 @@ export default function Home(props) {
       let tmp = [];
       for (let i = 0; i < ver; ++i) {
         let req = await props.contract.methods.verifiedRequests(i).call();
-        console.log(req);
         if (req.status === "1") {
           tmp.push(req);
         }
@@ -42,7 +40,7 @@ export default function Home(props) {
 
   return (
     <div>
-    <div className="verify blur"></div>
+      <div className="verify blur"></div>
       <FormModal
         show={showModal}
         onHide={() => setShowModal(false)}
@@ -76,7 +74,8 @@ export default function Home(props) {
             >
               {" "}
               A Trustworthy Platform For Charity Donation, With Transparent Flow
-              Of Funds To Gain Trust Of The People. Effortlessly Set Up And Manage Your Fundraiser And Engage With Donors. {" "}
+              Of Funds To Gain Trust Of The People. Effortlessly Set Up And
+              Manage Your Fundraiser And Engage With Donors.{" "}
             </div>
             <div className="row pt-5">
               <div className="col-3"></div>
@@ -112,10 +111,10 @@ export default function Home(props) {
               {completedReq.map((_, idx) => (
                 <Col key={idx}>
                   <Card
-                    className="m-2 card-bg "
+                    className="m-4 card-bg "
                     style={{ borderRadius: "16px" }}
                   >
-                    <Card.Img variant="top" src={charity} />
+                    <Card.Img variant="top" src={getImage(_.img)} />
                     <Card.Body className="text-light">
                       <Card.Title>{_.title}</Card.Title>
                       <Card.Text>{_.descriptionHash}</Card.Text>

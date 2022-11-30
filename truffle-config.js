@@ -13,7 +13,7 @@ module.exports = {
     ganache_local: {
       provider: function () {
         return new HDWalletProvider(
-          process.env.MNEMONIC,
+          "front royal riot vanish canyon lesson abandon enjoy feed alley frost grace",
           "http://127.0.0.1:7545",
           MetaMaskAccountIndex
         );
@@ -21,8 +21,6 @@ module.exports = {
       network_id: 1337,
     },
   },
-
-  
   compilers: {
     solc: {
       version: "0.8.0",

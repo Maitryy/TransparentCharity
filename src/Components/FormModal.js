@@ -25,8 +25,9 @@ export default function FormModal(props) {
   const addRequest = (postTitle, postDesc, docHash, amt) => {
     var postID = new Date().valueOf();
     return new Promise((resolve, reject) => {
+      let img = Math.floor(Math.random() * 6 + 1);
       props.contract.methods
-        .addRequest(postID, postTitle, amt, postDesc, docHash)
+        .addRequest(postID, postTitle, amt, postDesc, docHash, img)
         .send({ from: props.account, gas: 1000000 })
         .once("receipt", (receipt) => {
           resolve(receipt);

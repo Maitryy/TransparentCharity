@@ -5,7 +5,7 @@ import { Row } from "react-bootstrap";
 import { Col } from "react-bootstrap";
 import { Card, Button } from "react-bootstrap";
 import { useEffect, useState } from "react";
-import charity from "../Images/charity.jpg";
+import charity1 from "../Images/charity1.jpg";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import ProgressBar from "react-bootstrap/ProgressBar";
@@ -22,8 +22,7 @@ export default function Donate(props) {
       let tmp = [];
       for (let i = 0; i < verifiedReqLength; ++i) {
         let req = await props.contract.methods.verifiedRequests(i).call();
-        console.log(req);
-        if (req.status === 0) {
+        if (req.status === "0") {
           tmp.push(req);
         }
       }
@@ -47,7 +46,7 @@ export default function Donate(props) {
                   boxShadow: " rgba(129, 124, 124, 0.3)",
                 }}
               >
-                <Card.Img variant="top" src={charity} />
+                <Card.Img variant="top" src={charity1} />
                 <Card.Body className="text-light">
                   <Card.Title>{_.title}</Card.Title>
                   <Card.Text>{_.descriptionHash}</Card.Text>
@@ -80,7 +79,6 @@ export default function Donate(props) {
                             gas: 1000000,
                           })
                           .then((rec) => {
-                            console.log("HEHE?");
                             console.log(rec);
                           })
                           .catch((error) => {

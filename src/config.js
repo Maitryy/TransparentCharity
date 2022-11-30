@@ -1,6 +1,6 @@
-export const CHARITY_ADDRESS = "0xf405f092971ea0fC6ABE710B0aA3660F1ccc781C";
+export const CHARITY_ADDRESS = "0x7267d425C90bF19aF23556EA25A6b73917422682";
 
-export const CHARITY_ABI = [
+export const CHARITY_ABI =  [
   {
     "inputs": [],
     "stateMutability": "nonpayable",
@@ -55,6 +55,11 @@ export const CHARITY_ABI = [
         "internalType": "uint256",
         "name": "downvote",
         "type": "uint256"
+      },
+      {
+        "internalType": "uint128",
+        "name": "img",
+        "type": "uint128"
       }
     ],
     "stateMutability": "view",
@@ -124,6 +129,11 @@ export const CHARITY_ABI = [
         "internalType": "uint256",
         "name": "status",
         "type": "uint256"
+      },
+      {
+        "internalType": "uint128",
+        "name": "img",
+        "type": "uint128"
       }
     ],
     "stateMutability": "view",
@@ -267,6 +277,11 @@ export const CHARITY_ABI = [
         "internalType": "string",
         "name": "docHash",
         "type": "string"
+      },
+      {
+        "internalType": "uint128",
+        "name": "img",
+        "type": "uint128"
       }
     ],
     "name": "addRequest",

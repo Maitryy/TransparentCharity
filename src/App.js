@@ -6,8 +6,6 @@ import Home from "./Pages/Home";
 import Navigation from "./Components/Navbar";
 import Verify from "./Pages/Verify";
 import Request from "./Pages/Request";
-import Footer from "./Components/Footer";
-import Detail from "./Pages/Detail";
 import MyRequest from "./Pages/MyRequest";
 import Donate from "./Pages/Donate";
 import { CHARITY_ADDRESS, CHARITY_ABI } from "./config";
@@ -104,16 +102,6 @@ class App extends Component {
               path="/request"
               element={
                 <Request
-                  contract={this.state.contract}
-                  account={this.state.account}
-                  loaded={this.state.loaded}
-                />
-              }
-            />
-            <Route
-              path="/details"
-              element={
-                <Detail
                   contract={this.state.contract}
                   account={this.state.account}
                   loaded={this.state.loaded}

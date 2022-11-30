@@ -2,14 +2,13 @@ import React from "react";
 import "./Verify.css";
 import "./Request.css";
 import Card from "react-bootstrap/Card";
-import charity from "../Images/charity.jpg";
+import charity1 from "../Images/charity1.jpg";
 import { Container } from "react-bootstrap";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import { useState, useEffect } from "react";
-import CompCarousel from '../Components/CompCarousel'
-
+import getImage from "../Images/getImage";
 
 export default function Verify(props) {
   const [isVerifier, setIsVerifier] = useState(false);
@@ -57,7 +56,7 @@ export default function Verify(props) {
             {unverifiedRequests.map((_, idx) => (
               <Col key={idx}>
                 <Card className="m-2 card-bg " style={{ borderRadius: "16px" }}>
-                  <Card.Img variant="top" src={charity} />
+                  <Card.Img variant="top" src={getImage(_.img)} />
                   <Card.Body className="text-light">
                     <Card.Title>{_.title}</Card.Title>
                     <Card.Text>{_.descriptionHash}</Card.Text>
@@ -66,10 +65,14 @@ export default function Verify(props) {
                         <Button
                           variant="success"
                           onClick={() => {
+                            let tmp = unverifiedRequests;
+                            tmp = tmp
+                              .slice(0, idx)
+                              .concat(tmp.slice(idx + 1, tmp.length));
+                            setUnverifiedRequests(tmp);
                             props.contract.methods
                               .upvoteRequest(_.id)
                               .send({ from: props.account, gas: 1000000 });
-                            console.log(idx);
                           }}
                         >
                           +
@@ -86,7 +89,21 @@ export default function Verify(props) {
                         </a>{" "}
                       </button>
                       <div className="col-2 mt-2">
-                        <Button variant="danger">-</Button>
+                        <Button
+                          variant="danger"
+                          onClick={() => {
+                            let tmp = unverifiedRequests;
+                            tmp = tmp
+                              .slice(0, idx)
+                              .concat(tmp.slice(idx + 1, tmp.length));
+                            setUnverifiedRequests(tmp);
+                            props.contract.methods
+                              .downvoteRequest(_.id)
+                              .send({ from: props.account, gas: 1000000 });
+                          }}
+                        >
+                          -
+                        </Button>
                       </div>
                     </div>
                   </Card.Body>
@@ -97,14 +114,10 @@ export default function Verify(props) {
         </Container>
       ) : (
         <div>
-        <div className="card-verify text-light">
-            <h1 className="pt-5">
-              Sorry!!
-            </h1>
-            <h2 className="pb-5">
-              You're unauthorized
-            </h2>
-        </div>
+          <div className="card-verify text-light">
+            <h1 className="pt-5">Sorry!!</h1>
+            <h2 className="pb-5">You're unauthorized</h2>
+          </div>
         </div>
       )}
     </div>

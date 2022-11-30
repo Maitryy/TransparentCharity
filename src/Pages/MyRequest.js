@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
-import Web3 from "web3";
 import { Container } from "react-bootstrap";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
-import charity from "../Images/charity.jpg";
+import charity1 from "../Images/charity1.jpg";
 
 export default function MyRequest(props) {
   const [verifiedReq, setVerifiedReq] = useState([]);
@@ -20,7 +18,6 @@ export default function MyRequest(props) {
       let unverifiedLength = await props.contract.methods
         .unverifiedRequestsLength()
         .call();
-      console.log(verifiedLength, unverifiedLength);
       let tempVer = [],
         tempUnver = [];
       for (let i = 0; i < verifiedLength; ++i) {
@@ -71,7 +68,7 @@ export default function MyRequest(props) {
           {unverifiedReq.map((_, idx) => (
             <Col key={idx}>
               <Card className="m-2 card-bg " style={{ borderRadius: "16px" }}>
-                <Card.Img variant="top" src={charity} />
+                <Card.Img variant="top" src={charity1} />
                 <Card.Body className="text-light">
                   <Card.Title>{_.title}</Card.Title>
                   <Card.Text>{_.descriptionHash}</Card.Text>
@@ -112,7 +109,7 @@ export default function MyRequest(props) {
           {verifiedReq.map((_, idx) => (
             <Col key={idx}>
               <Card className="m-2 card-bg " style={{ borderRadius: "16px" }}>
-                <Card.Img variant="top" src={charity} />
+                <Card.Img variant="top" src={charity1} />
                 <Card.Body className="text-light">
                   <Card.Title>{_.title}</Card.Title>
                   <Card.Text>{_.descriptionHash}</Card.Text>
@@ -153,7 +150,7 @@ export default function MyRequest(props) {
           {completedReq.map((_, idx) => (
             <Col key={idx}>
               <Card className="m-2 card-bg " style={{ borderRadius: "16px" }}>
-                <Card.Img variant="top" src={charity} />
+                <Card.Img variant="top" src={charity1} />
                 <Card.Body className="text-light">
                   <Card.Title>{_.title}</Card.Title>
                   <Card.Text>{_.descriptionHash}</Card.Text>

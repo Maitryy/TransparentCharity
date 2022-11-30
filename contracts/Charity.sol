@@ -11,6 +11,7 @@ contract Charity {
         string docHash;
         uint256 upvote;
         uint256 downvote;
+        uint128 img;
     }
     struct verifiedRequest {
         uint256 id;
@@ -21,6 +22,7 @@ contract Charity {
         string docHash;
         uint256 amountRaised;
         uint256 status;
+        uint128 img;
     }
     address admin;
     address payable[] public verifiers;
@@ -93,7 +95,8 @@ contract Charity {
         string memory title,
         uint256 amount,
         string memory descriptionHash,
-        string memory docHash
+        string memory docHash,
+        uint128 img
     ) public returns (bool) {
         unverifiedRequests.push(
             unverifiedRequest({
@@ -104,7 +107,8 @@ contract Charity {
                 docHash: docHash,
                 owner: msg.sender,
                 upvote: 0,
-                downvote: 0
+                downvote: 0,
+                img: img
             })
         );
         unverifiedRequestsLength += 1;
@@ -155,7 +159,8 @@ contract Charity {
                 docHash: unverifiedRequests[ind].docHash,
                 owner: payable(unverifiedRequests[ind].owner),
                 amountRaised: 0,
-                status: 0
+                status: 0,
+                img: unverifiedRequests[ind].img
             })
         );
         verifiedRequestsLength += 1;
