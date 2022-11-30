@@ -24,15 +24,15 @@ contract Charity {
     }
     address admin;
     address payable[] public verifiers;
-    uint public verifierLength = 0;
-    uint public unverifiedRequestsLength = 0;
-    uint public verifiedRequestsLength = 0;
+    uint256 public verifierLength = 0;
+    uint256 public unverifiedRequestsLength = 0;
+    uint256 public verifiedRequestsLength = 0;
     // mapping(uint =>unverifiedRequest ) unverifiedRequests;
     // mapping(uint =>verifiedRequest ) verifiedRequests;
     unverifiedRequest[] public unverifiedRequests;
     verifiedRequest[] public verifiedRequests;
     mapping(address => mapping(uint256 => bool)) public voteStatus;
-    
+
     constructor() {
         admin = msg.sender;
     }
@@ -69,7 +69,7 @@ contract Charity {
             if (verifiers[i] == verifier) revert("Verifier already exists");
         }
         verifiers.push(verifier);
-        verifierLength+=1;
+        verifierLength += 1;
         return true;
     }
 
@@ -84,7 +84,7 @@ contract Charity {
         if (ind == 1000000) revert("Verifier not present");
         verifiers[ind] = verifiers[verifiers.length - 1];
         verifiers.pop();
-        verifierLength-=1;
+        verifierLength -= 1;
         return true;
     }
 
@@ -107,7 +107,7 @@ contract Charity {
                 downvote: 0
             })
         );
-        unverifiedRequestsLength+=1;
+        unverifiedRequestsLength += 1;
         return true;
     }
 
@@ -158,13 +158,13 @@ contract Charity {
                 status: 0
             })
         );
-        verifiedRequestsLength+=1;
+        verifiedRequestsLength += 1;
         uint256 id = unverifiedRequests[ind].id;
         unverifiedRequests[ind] = unverifiedRequests[
             unverifiedRequests.length - 1
         ];
         unverifiedRequests.pop();
-        unverifiedRequestsLength-=1;
+        unverifiedRequestsLength -= 1;
         for (uint256 i = 0; i < verifiers.length; i++)
             delete voteStatus[verifiers[i]][id];
         return;
@@ -176,7 +176,7 @@ contract Charity {
             unverifiedRequests.length - 1
         ];
         unverifiedRequests.pop();
-        unverifiedRequestsLength-=1;
+        unverifiedRequestsLength -= 1;
         for (uint256 i = 0; i < verifiers.length; i++)
             delete voteStatus[verifiers[i]][id];
         return;
@@ -207,7 +207,9 @@ contract Charity {
             require(sent2, "Failed to send Ether to verifier");
         }
         verifiedRequests[ind].amountRaised += msg.value;
-        if (verifiedRequests[ind].amountRaised >= verifiedRequests[ind].amount) {
+        if (
+            verifiedRequests[ind].amountRaised >= verifiedRequests[ind].amount
+        ) {
             verifiedRequests[ind].status = 1;
             // deleteRequest(ind);
         }
@@ -217,7 +219,7 @@ contract Charity {
     function deleteRequest(uint256 ind) internal {
         verifiedRequests[ind] = verifiedRequests[verifiedRequests.length - 1];
         verifiedRequests.pop();
-        verifiedRequestsLength-=1;
+        verifiedRequestsLength -= 1;
         return;
     }
 }

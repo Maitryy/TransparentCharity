@@ -27,7 +27,7 @@ export default function FormModal(props) {
     return new Promise((resolve, reject) => {
       props.contract.methods
         .addRequest(postID, postTitle, amt, postDesc, docHash)
-        .send({ from: props.account, gas: "1000000" })
+        .send({ from: props.account, gas: 1000000 })
         .once("receipt", (receipt) => {
           resolve(receipt);
         })
@@ -101,7 +101,7 @@ export default function FormModal(props) {
             className="my-3 mx-4"
             controlId="exampleForm.ControlTextarea1"
           >
-            <Form.Label className="text-light">Enter Description</Form.Label>
+            <Form.Label className="text-light">Write A Brief Intro</Form.Label>
             <InputGroup>
               <Form.Control
                 as="textarea"
@@ -116,7 +116,7 @@ export default function FormModal(props) {
 
           <Form.Group controlId="formFileMultiple" className="my-3 mx-4">
             <Form.Label className="text-light">
-              Upload supporting documents
+              Upload Documents and Detailed Description
             </Form.Label>
             <Form.Control
               type="file"

@@ -6,8 +6,10 @@ import Home from "./Pages/Home";
 import Navigation from "./Components/Navbar";
 import Verify from "./Pages/Verify";
 import Request from "./Pages/Request";
+import Footer from "./Components/Footer";
 import Detail from "./Pages/Detail";
 import MyRequest from "./Pages/MyRequest";
+import Donate from "./Pages/Donate";
 import { CHARITY_ADDRESS, CHARITY_ABI } from "./config";
 
 class App extends Component {
@@ -21,8 +23,7 @@ class App extends Component {
         window.ethereum
           .request({ method: "eth_requestAccounts" })
           .then((add) => {
-            console.log(add);
-            resolve(add[0]);
+            resolve(Web3.utils.toChecksumAddress(add[0]));
           })
           .catch((err) => {
             alert("couldn't connect!");
@@ -121,10 +122,23 @@ class App extends Component {
             />
             <Route
               path="/myrequest"
-              element={<MyRequest />}
-              contract={this.state.contract}
-              account={this.state.account}
-              loaded={this.state.loaded}
+              element={
+                <MyRequest
+                  contract={this.state.contract}
+                  account={this.state.account}
+                  loaded={this.state.loaded}
+                />
+              }
+            />
+            <Route
+              path="/donate"
+              element={
+                <Donate
+                  contract={this.state.contract}
+                  account={this.state.account}
+                  loaded={this.state.loaded}
+                />
+              }
             />
           </Routes>
         </BrowserRouter>

@@ -1,4 +1,4 @@
-export const CHARITY_ADDRESS = "0x3c260fA906dc9Cd2006D5C90f935313b5FCCFeb8";
+export const CHARITY_ADDRESS = "0xf405f092971ea0fC6ABE710B0aA3660F1ccc781C";
 
 export const CHARITY_ABI = [
   {
@@ -58,7 +58,8 @@ export const CHARITY_ABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [],
@@ -71,7 +72,8 @@ export const CHARITY_ABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [
@@ -117,10 +119,16 @@ export const CHARITY_ABI = [
         "internalType": "uint256",
         "name": "amountRaised",
         "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "status",
+        "type": "uint256"
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [],
@@ -133,7 +141,8 @@ export const CHARITY_ABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [],
@@ -146,7 +155,8 @@ export const CHARITY_ABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [
@@ -165,7 +175,8 @@ export const CHARITY_ABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [
@@ -189,7 +200,8 @@ export const CHARITY_ABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [
@@ -323,6 +335,7 @@ export const CHARITY_ABI = [
       }
     ],
     "stateMutability": "payable",
-    "type": "function"
+    "type": "function",
+    "payable": true
   }
 ];
