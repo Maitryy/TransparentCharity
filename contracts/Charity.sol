@@ -211,7 +211,7 @@ contract Charity {
             delete dat2;
             require(sent2, "Failed to send Ether to verifier");
         }
-        verifiedRequests[ind].amountRaised += msg.value;
+        verifiedRequests[ind].amountRaised += beneficiaryAmount;
         if (
             verifiedRequests[ind].amountRaised >= verifiedRequests[ind].amount
         ) {

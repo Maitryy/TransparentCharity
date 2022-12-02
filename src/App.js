@@ -39,7 +39,9 @@ class App extends Component {
   }
 
   async loadBlockchainData() {
-    const web3 = new Web3("http://localhost:7545");
+    // const web3 = new Web3("http://localhost:7545");
+    const web3 = new Web3(window.ethereum);
+    console.log(web3);
     const accounts = await web3.eth.getAccounts();
     this.setState({
       contract: new web3.eth.Contract(CHARITY_ABI, CHARITY_ADDRESS),

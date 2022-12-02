@@ -16,7 +16,6 @@ export default function Home(props) {
   const [showModal, setShowModal] = useState(false);
   const [completedReq, setCompletedReq] = useState([]);
   const [completedReqLength, setCompletedReqLength] = useState(0);
-  console.log(props);
 
   useEffect(() => {
     async function getData() {
@@ -112,12 +111,20 @@ export default function Home(props) {
                 <Col key={idx}>
                   <Card
                     className="m-4 card-bg "
-                    style={{ borderRadius: "16px" }}
+                    style={{ borderRadius: "16px", fontFamily: "Manrope" }}
                   >
-                    <Card.Img variant="top" src={getImage(_.img)} />
+                    <Card.Img
+                      variant="top"
+                      src={getImage(_.img)}
+                      style={{
+                        height: "370px",
+                        width: "400px",
+                        objectFit: "cover",
+                      }}
+                    />
                     <Card.Body className="text-light">
-                      <Card.Title>{_.title}</Card.Title>
-                      <Card.Text>{_.descriptionHash}</Card.Text>
+                      <Card.Title style={{fontWeight: "bold"}}>{_.title}</Card.Title>
+                      <Card.Text style={{fontSize: "14px"}}>{_.descriptionHash}</Card.Text>
                       <div style={{ textAlign: "left" }}>
                         Amount Raised:
                         <ProgressBar

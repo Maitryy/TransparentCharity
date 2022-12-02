@@ -10,9 +10,11 @@ import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import ProgressBar from "react-bootstrap/ProgressBar";
 import Web3 from "web3";
+import getImage from "../Images/getImage";
 
 export default function Donate(props) {
   const [verifiedReq, setVerifiedReq] = useState([]);
+  const [donateAmt, setDonateAmt] = useState([]);
 
   useEffect(() => {
     async function getData() {
@@ -36,6 +38,17 @@ export default function Donate(props) {
   return (
     <div className="verify-bg">
       <Container>
+        <div
+          style={{
+            fontFamily: "Orbitron",
+            fontWeight: "900",
+            fontSize: "50px",
+            marginTop: "5%",
+            color: "white",
+          }}
+        >
+          Donate Now
+        </div>
         <Row xs={1} md={2} lg={3} className="g-4 pt-5">
           {verifiedReq.map((_, idx) => (
             <Col key={idx}>
@@ -46,7 +59,15 @@ export default function Donate(props) {
                   boxShadow: " rgba(129, 124, 124, 0.3)",
                 }}
               >
-                <Card.Img variant="top" src={charity1} />
+                <Card.Img
+                  variant="top"
+                  src={getImage(_.img)}
+                  style={{
+                    height: "370px",
+                    width: "400px",
+                    objectFit: "cover",
+                  }}
+                />
                 <Card.Body className="text-light">
                   <Card.Title>{_.title}</Card.Title>
                   <Card.Text>{_.descriptionHash}</Card.Text>
@@ -66,7 +87,12 @@ export default function Donate(props) {
                   </div>
                   <InputGroup className="my-3">
                     <InputGroup.Text>ETH</InputGroup.Text>
-                    <Form.Control aria-label="Amount (to the nearest dollar)" />
+                    <Form.Control
+                      aria-label="Amount (to the nearest dollar)"
+                      onChange={(event) => {
+                        setDonateAmt(event.target.value);
+                      }}
+                    />
                     <Button
                       variant="warning"
                       onClick={() => {
@@ -74,8 +100,7 @@ export default function Donate(props) {
                           .donate(_.id)
                           .send({
                             from: props.account,
-                            // value: Web3.utils.toWei(1, "ether"),
-                            value: 10,
+                            value: donateAmt * Math.pow(10, 18),
                             gas: 1000000,
                           })
                           .then((rec) => {

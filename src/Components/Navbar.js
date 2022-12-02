@@ -6,6 +6,7 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import Button from "react-bootstrap/Button";
 import "./Navigation.css";
 import { Link, NavLink } from "react-router-dom";
+import brand from "../Images/favicon.jpg";
 
 function Navigation(props) {
   const [walletAdd, setWalletAdd] = useState("");
@@ -29,8 +30,14 @@ function Navigation(props) {
               textDecoration: "none",
             }}
           >
-            {" "}
-            Not-Milaap{" "}
+            <img
+              src={brand}
+              width="35"
+              height="35"
+              className="d-inline-block align-top"
+              alt="React Bootstrap logo"
+            />{" "}
+            &nbsp; Not-Milaap{" "}
           </NavLink>{" "}
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />

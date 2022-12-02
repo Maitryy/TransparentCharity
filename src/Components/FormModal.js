@@ -30,6 +30,7 @@ export default function FormModal(props) {
         .addRequest(postID, postTitle, amt, postDesc, docHash, img)
         .send({ from: props.account, gas: 1000000 })
         .once("receipt", (receipt) => {
+          console.log(receipt);
           resolve(receipt);
         })
         .once("error", (error) => {

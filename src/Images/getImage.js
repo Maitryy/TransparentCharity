@@ -7,7 +7,6 @@ import charity6 from "./charity6.jpg";
 
 export default function getImage(img) {
   var imgSrc;
-  console.log(img)
   switch (parseInt(img)) {
     case 1:
       imgSrc = charity1;
@@ -28,6 +27,5 @@ export default function getImage(img) {
       imgSrc = charity6;
       break;
   }
-  console.log(imgSrc)
   return imgSrc;
 }

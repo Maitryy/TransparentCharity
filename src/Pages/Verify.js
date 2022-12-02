@@ -56,7 +56,15 @@ export default function Verify(props) {
             {unverifiedRequests.map((_, idx) => (
               <Col key={idx}>
                 <Card className="m-2 card-bg " style={{ borderRadius: "16px" }}>
-                  <Card.Img variant="top" src={getImage(_.img)} />
+                  <Card.Img
+                    variant="top"
+                    src={getImage(_.img)}
+                    style={{
+                      height: "370px",
+                      width: "400px",
+                      objectFit: "cover",
+                    }}
+                  />
                   <Card.Body className="text-light">
                     <Card.Title>{_.title}</Card.Title>
                     <Card.Text>{_.descriptionHash}</Card.Text>

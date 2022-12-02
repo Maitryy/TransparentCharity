@@ -4,11 +4,15 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Card from "react-bootstrap/Card";
 import charity1 from "../Images/charity1.jpg";
+import getImage from "../Images/getImage";
 
 export default function MyRequest(props) {
   const [verifiedReq, setVerifiedReq] = useState([]);
   const [unverifiedReq, setUnverifiedReq] = useState([]);
   const [completedReq, setCompletedReq] = useState([]);
+  const [verifiedLength, setVerifiedLength] = useState(0);
+  const [unverifiedLength, setUnverifiedLength] = useState(0);
+  const [completedLength, setCompletedLength] = useState(0);
 
   useEffect(() => {
     async function getData() {
@@ -42,8 +46,11 @@ export default function MyRequest(props) {
       });
 
       setUnverifiedReq(filteredUnverified);
+      setUnverifiedLength(filteredUnverified.length);
       setVerifiedReq(filteredVerified);
+      setVerifiedLength(filteredVerified.length);
       setCompletedReq(filteredCompleted);
+      setCompletedLength(filteredCompleted.length);
     }
     if (props.loaded) {
       getData();
@@ -53,7 +60,7 @@ export default function MyRequest(props) {
     <div>
       <div className="blur verify-bg"></div>
       <Container>
-        <div
+        {verifiedLength === 0 ? " " : <div
           style={{
             fontFamily: "Orbitron",
             fontWeight: "900",
@@ -63,12 +70,20 @@ export default function MyRequest(props) {
           }}
         >
           Unverified Requests
-        </div>
+        </div>}
         <Row xs={1} md={2} lg={3} className="g-4 pt-5">
           {unverifiedReq.map((_, idx) => (
             <Col key={idx}>
               <Card className="m-2 card-bg " style={{ borderRadius: "16px" }}>
-                <Card.Img variant="top" src={charity1} />
+                <Card.Img
+                  variant="top"
+                  src={getImage(_.img)}
+                  style={{
+                    height: "370px",
+                    width: "400px",
+                    objectFit: "cover",
+                  }}
+                />
                 <Card.Body className="text-light">
                   <Card.Title>{_.title}</Card.Title>
                   <Card.Text>{_.descriptionHash}</Card.Text>
@@ -94,7 +109,7 @@ export default function MyRequest(props) {
           ))}
         </Row>
 
-        <div
+        {verifiedLength === 0 ? " " : <div
           style={{
             fontFamily: "Orbitron",
             fontWeight: "900",
@@ -104,12 +119,20 @@ export default function MyRequest(props) {
           }}
         >
           Verified Requests
-        </div>
+        </div>}
         <Row xs={1} md={2} lg={3} className="g-4 pt-5">
           {verifiedReq.map((_, idx) => (
             <Col key={idx}>
               <Card className="m-2 card-bg " style={{ borderRadius: "16px" }}>
-                <Card.Img variant="top" src={charity1} />
+                <Card.Img
+                  variant="top"
+                  src={getImage(_.img)}
+                  style={{
+                    height: "370px",
+                    width: "400px",
+                    objectFit: "cover",
+                  }}
+                />
                 <Card.Body className="text-light">
                   <Card.Title>{_.title}</Card.Title>
                   <Card.Text>{_.descriptionHash}</Card.Text>
@@ -150,7 +173,15 @@ export default function MyRequest(props) {
           {completedReq.map((_, idx) => (
             <Col key={idx}>
               <Card className="m-2 card-bg " style={{ borderRadius: "16px" }}>
-                <Card.Img variant="top" src={charity1} />
+                <Card.Img
+                  variant="top"
+                  src={getImage(_.img)}
+                  style={{
+                    height: "370px",
+                    width: "400px",
+                    objectFit: "cover",
+                  }}
+                />
                 <Card.Body className="text-light">
                   <Card.Title>{_.title}</Card.Title>
                   <Card.Text>{_.descriptionHash}</Card.Text>
